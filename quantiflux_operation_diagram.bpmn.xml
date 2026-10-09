@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+                  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+                  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+                  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+                  id="Definitions_Quantiflux"
+                  targetNamespace="http://bpmn.io/schema/bpmn"
+                  exporter="Hermes Cognitive Executor"
+                  exporterVersion="1.0">
+  <bpmn:collaboration id="Collaboration_Quantiflux">
+    <bpmn:participant id="Participant_QuantifluxEngine" name="Quantiflux Meta-Engineering Framework (Multi-Wave Agent Orchestration)" processRef="Process_QuantifluxEngine" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_QuantifluxEngine" isExecutable="true">
+    <bpmn:laneSet id="LaneSet_01">
+      <bpmn:lane id="Lane_Conceptual" name="1. Nível Conceitual (Engenheiro Sênior / Visão Master)">
+        <bpmn:flowNodeRef>StartEvent_Conceptual</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_FormulateMasterTesis</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_DefineInvariants</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Strategic" name="2. Nível Estratégico (Orquestrador de Plano Diretor)">
+        <bpmn:flowNodeRef>Task_DeriveMasterPlan</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_DecomposeWaves</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_PlanApproval</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Tactical" name="3. Nível Tático (Gerenciador de Contexto &amp; Subagentes)">
+        <bpmn:flowNodeRef>Task_IsolateContext</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_SpawnSubagents</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_CollectHandoffs</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Operational" name="4. Nível Operacional (Operadores Especialistas / Executores)">
+        <bpmn:flowNodeRef>Task_ExecuteCode</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_RunTests</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_WaveGate</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_WaveCompleted</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <!-- Conceitual -->
+    <bpmn:startEvent id="StartEvent_Conceptual" name="Início do Ciclo Metanalítico">
+      <bpmn:outgoing>SequenceFlow_01</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="Task_FormulateMasterTesis" name="Formular Tese e Arquitetura do Sistema">
+      <bpmn:incoming>SequenceFlow_01</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_02</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Task_DefineInvariants" name="Mapear Entidades &amp; Invariantes de Negócio">
+      <bpmn:incoming>SequenceFlow_02</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_03</bpmn:outgoing>
+    </bpmn:task>
+
+    <!-- Estratégico -->
+    <bpmn:task id="Task_DeriveMasterPlan" name="Elaborar Plano Diretor de Engenharia (.hermes/plans)">
+      <bpmn:incoming>SequenceFlow_03</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_PlanRejected</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_04</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Task_DecomposeWaves" name="Decompor o Projeto em Ondas Sequenciais (Waves)">
+      <bpmn:incoming>SequenceFlow_04</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_05</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="Gateway_PlanApproval" name="Plano Aprovado?">
+      <bpmn:incoming>SequenceFlow_05</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_PlanApproved</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_PlanRejected</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <!-- Tático -->
+    <bpmn:task id="Task_IsolateContext" name="Filtrar e Isolar Contexto Específico da Wave">
+      <bpmn:incoming>SequenceFlow_PlanApproved</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_NextWave</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_06</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Task_SpawnSubagents" name="Disparar Subagentes Táticos (delegate_task)">
+      <bpmn:incoming>SequenceFlow_06</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_07</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Task_CollectHandoffs" name="Coletar Resultados &amp; Artifacts do Handoff">
+      <bpmn:incoming>SequenceFlow_08</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_09</bpmn:outgoing>
+    </bpmn:task>
+
+    <!-- Operacional -->
+    <bpmn:task id="Task_ExecuteCode" name="Executar Implementação (Operadores Especialistas)">
+      <bpmn:incoming>SequenceFlow_07</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_GateFailed</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_08</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Task_RunTests" name="Executar Bateria de Testes &amp; Verificação Git">
+      <bpmn:incoming>SequenceFlow_09</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_10</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="Gateway_WaveGate" name="Portão de Qualidade da Wave (Passou?)">
+      <bpmn:incoming>SequenceFlow_10</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_NextWave</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_GateFailed</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_AllWavesDone</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="EndEvent_WaveCompleted" name="Sistema Consolidado e Promovido">
+      <bpmn:incoming>SequenceFlow_AllWavesDone</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <!-- Sequences -->
+    <bpmn:sequenceFlow id="SequenceFlow_01" sourceRef="StartEvent_Conceptual" targetRef="Task_FormulateMasterTesis" />
+    <bpmn:sequenceFlow id="SequenceFlow_02" sourceRef="Task_FormulateMasterTesis" targetRef="Task_DefineInvariants" />
+    <bpmn:sequenceFlow id="SequenceFlow_03" sourceRef="Task_DefineInvariants" targetRef="Task_DeriveMasterPlan" />
+    <bpmn:sequenceFlow id="SequenceFlow_04" sourceRef="Task_DeriveMasterPlan" targetRef="Task_DecomposeWaves" />
+    <bpmn:sequenceFlow id="SequenceFlow_05" sourceRef="Task_DecomposeWaves" targetRef="Gateway_PlanApproval" />
+    <bpmn:sequenceFlow id="SequenceFlow_PlanApproved" name="Sim" sourceRef="Gateway_PlanApproval" targetRef="Task_IsolateContext" />
+    <bpmn:sequenceFlow id="SequenceFlow_PlanRejected" name="Ajustar" sourceRef="Gateway_PlanApproval" targetRef="Task_DeriveMasterPlan" />
+    <bpmn:sequenceFlow id="SequenceFlow_06" sourceRef="Task_IsolateContext" targetRef="Task_SpawnSubagents" />
+    <bpmn:sequenceFlow id="SequenceFlow_07" sourceRef="Task_SpawnSubagents" targetRef="Task_ExecuteCode" />
+    <bpmn:sequenceFlow id="SequenceFlow_08" sourceRef="Task_ExecuteCode" targetRef="Task_CollectHandoffs" />
+    <bpmn:sequenceFlow id="SequenceFlow_09" sourceRef="Task_CollectHandoffs" targetRef="Task_RunTests" />
+    <bpmn:sequenceFlow id="SequenceFlow_10" sourceRef="Task_RunTests" targetRef="Gateway_WaveGate" />
+    <bpmn:sequenceFlow id="SequenceFlow_NextWave" name="Próxima Wave" sourceRef="Gateway_WaveGate" targetRef="Task_IsolateContext" />
+    <bpmn:sequenceFlow id="SequenceFlow_GateFailed" name="Refazer Operação" sourceRef="Gateway_WaveGate" targetRef="Task_ExecuteCode" />
+    <bpmn:sequenceFlow id="SequenceFlow_AllWavesDone" name="Todas Waves Concluídas" sourceRef="Gateway_WaveGate" targetRef="EndEvent_WaveCompleted" />
+  </bpmn:process>
+
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_Quantiflux">
+      <bpmndi:BPMNShape id="Participant_QuantifluxEngine_di" bpmnElement="Participant_QuantifluxEngine" isHorizontal="true">
+        <dc:Bounds x="160" y="80" x="1100" y="800" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Conceptual_di" bpmnElement="Lane_Conceptual" isHorizontal="true">
+        <dc:Bounds x="190" y="80" x="1070" y="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Strategic_di" bpmnElement="Lane_Strategic" isHorizontal="true">
+        <dc:Bounds x="190" y="280" x="1070" y="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Tactical_di" bpmnElement="Lane_Tactical" isHorizontal="true">
+        <dc:Bounds x="190" y="480" x="1070" y="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Operational_di" bpmnElement="Lane_Operational" isHorizontal="true">
+        <dc:Bounds x="190" y="680" x="1070" y="200" />
+      </bpmndi:BPMNShape>
+
+      <!-- Shapes -->
+      <bpmndi:BPMNShape id="StartEvent_Conceptual_di" bpmnElement="StartEvent_Conceptual">
+        <dc:Bounds x="230" y="140" x="36" y="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_FormulateMasterTesis_di" bpmnElement="Task_FormulateMasterTesis">
+        <dc:Bounds x="310" y="120" x="120" y="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_DefineInvariants_di" bpmnElement="Task_DefineInvariants">
+        <dc:Bounds x="470" y="120" x="120" y="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_DeriveMasterPlan_di" bpmnElement="Task_DeriveMasterPlan">
+        <dc:Bounds x="470" y="320" x="120" y="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_DecomposeWaves_di" bpmnElement="Task_DecomposeWaves">
+        <dc:Bounds x="630" y="320" x="120" y="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_PlanApproval_di" bpmnElement="Gateway_PlanApproval" isMarkerVisible="true">
+        <dc:Bounds x="790" y="330" x="50" y="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_IsolateContext_di" bpmnElement="Task_IsolateContext">
+        <dc:Bounds x="755" y="530" x="120" y="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_SpawnSubagents_di" bpmnElement="Task_SpawnSubagents">
+        <dc:Bounds x="590" y="530" x="120" y="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_ExecuteCode_di" bpmnElement="Task_ExecuteCode">
+        <dc:Bounds x="590" y="730" x="120" y="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_CollectHandoffs_di" bpmnElement="Task_CollectHandoffs">
+        <dc:Bounds x="430" y="530" x="120" y="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_RunTests_di" bpmnElement="Task_RunTests">
+        <dc:Bounds x="430" y="730" x="120" y="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_WaveGate_di" bpmnElement="Gateway_WaveGate" isMarkerVisible="true">
+        <dc:Bounds x="290" y="740" x="50" y="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_WaveCompleted_di" bpmnElement="EndEvent_WaveCompleted">
+        <dc:Bounds x="230" y="747" x="36" y="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
