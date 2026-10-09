@@ -1,4 +1,4 @@
-# Guia de Instalação e Orientação para Agentes de Harness (Hermes / OpenCode / Claude Code)
+# Guia de Instalação e Orientação para Agentes e Harnesses
 
 Este documento orienta como agentes harness e executores devem carregar e utilizar a skill e o plugin Quantiflux.
 
@@ -6,34 +6,33 @@ Este documento orienta como agentes harness e executores devem carregar e utiliz
 
 ## 1. Estrutura do Plugin e da Skill
 
-* **Skill:** `multi-wave-agent-orchestration` (registrada no catálogo de skills do Hermes).
+* **Skill:** `multi-wave-agent-orchestration` (registrada no catálogo de skills do agente).
 * **Plugin:** `plugins/hermes/index.js` (hook leve de inicialização do orquestrador).
 
 ---
 
 ## 2. Instalação em Agentes Harness
 
-### Para Hermes Agent
+### Para Agentes baseados em CLI / Runtime
 A skill é carregada dinamicamente via comando:
 
 ```bash
 skill_view(name="multi-wave-agent-orchestration")
 ```
 
-Para registrar o plugin no perfil ativo do Hermes:
+Para registrar o plugin no perfil ativo do seu harness:
 
 ```bash
-cp -r plugins/hermes ~/.hermes/plugins/quantiflux
+cp -r plugins/hermes ~/.config/harness/plugins/quantiflux
 ```
 
-### Para OpenCode CLI
-Adicione o plugin à lista de plugins no arquivo `~/.config/opencode/opencode.json`:
+### Configuração em arquivo JSON de Harness
+Adicione o plugin à lista de plugins no arquivo de configuração do seu agente:
 
 ```json
 {
   "plugin": [
-    "oh-my-openagent",
-    "opencode-hive@latest",
+    "quantiflux-orchestration",
     "/var/home/bruno/Documentos/quantiflux/plugins/hermes"
   ]
 }

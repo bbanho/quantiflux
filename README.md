@@ -23,7 +23,7 @@ quantiflux/
 │       ├── capitulo3_orquestracao_ondas.tex
 │       └── capitulo4_conclusao.tex
 └── plugins/
-    └── hermes/                         # Plugin JS para Hermes e OpenCode
+    └── harness/                         # Plugin JS genérico para orquestração
         ├── package.json
         └── index.js
 ```
@@ -55,6 +55,6 @@ pdflatex main.tex
 
 ---
 
-## Operação por Agentes (Hermes / OpenCode / Claude Code)
+## Operação por Agentes e Harnesses
 
 Consulte o guia dedicado em [`docs/AGENT_HARNESS_GUIDE.md`](docs/AGENT_HARNESS_GUIDE.md) para detalhes de instalação e inclusão da skill no catálogo do seu harness.

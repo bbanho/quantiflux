@@ -1,5 +1,5 @@
 /**
- * Quantiflux Plugin for Hermes / Harness Agents
+ * Quantiflux Plugin for Agent Harnesses
  * Provides helper bindings to initialize wave-based execution and master plans.
  */
 
