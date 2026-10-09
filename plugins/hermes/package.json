@@ -1,0 +1,13 @@
+{
+  "name": "quantiflux-hermes-plugin",
+  "version": "0.1.0",
+  "description": "Quantiflux multi-wave agent orchestration plugin for agent harnesses.",
+  "main": "index.js",
+  "keywords": [
+    "multi-agent",
+    "orchestration",
+    "quantiflux"
+  ],
+  "author": "Bruno M. Banho",
+  "license": "MIT"
+}

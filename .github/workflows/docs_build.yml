@@ -1,0 +1,52 @@
+name: Build Documentation & SVG Assets
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-latex-abnt:
+    name: Compile ABNT LaTeX Document
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup TeX Live with ABNTeX2
+        uses: dante-ev/texlive-action@v1
+        with:
+          packages: |
+            scheme-basic
+            abntex2
+            lmodern
+            microtype
+            hyperref
+            babel
+            tools
+
+      - name: Compile TeX Document
+        run: |
+          cd docs/abntex2
+          pdflatex -interaction=nonstopmode main.tex
+          pdflatex -interaction=nonstopmode main.tex
+
+      - name: Upload Compiled PDF Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: quantiflux-relatorio-abnt.pdf
+          path: docs/abntex2/main.pdf
+
+  generate-svg-assets:
+    name: Validate and Render Diagrams
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Verify SVG Assets Exist
+        run: |
+          ls -la assets/
+          test -f assets/quantiflux_architecture.svg
+          test -f quantiflux_operation_diagram.bpmn.xml

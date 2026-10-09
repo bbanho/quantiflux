@@ -1,0 +1,72 @@
+\documentclass[
+	12pt,
+	openright,
+	oneside,
+	a4paper,
+	english,
+	french,
+	spanish,
+	brazil
+]{abntex2}
+
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{indentfirst}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{lipsum}
+\usepackage{hyperref}
+
+\definecolor{blue}{RGB}{41,5,195}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+\titulo{QUANTIFLUX: METODOLOGIA DE ORQUESTRAÇÃO DE ENXAMES DE AGENTES DE IA POR ONDAS E PLANO DIREITOR DE ENGENHARIA}
+\autor{Bruno M. Banho}
+\local{Brasil}
+\data{2026}
+\orientador{Axio Engineering \& Meta-Cognitive Systems}
+\instituicao{
+  Axio Engineering \& Meta-Cognitive Systems
+  \par
+  Laboratório de Arquitetura de Software e Agentes Autônomos
+}
+\tipotrabalho{Relatório Técnico de Engenharia}
+
+\makeindex
+
+\begin{document}
+
+\frenchspacing
+
+% CAPA
+\imprimirfolhaderosto
+
+% RESUMO
+\begin{resumo}
+ Este documento apresenta o \textbf{Quantiflux}, um arcabouço metanalítico e formal para orquestração de múltiplos agentes autônomos de inteligência artificial em projetos de engenharia de software de alta complexidade. A metodologia fundamenta-se na separação estrita de quatro camadas de abstração (Conceitual, Estratégico, Tático e Operacional) e na execução orientada a Ondas (\emph{Wave-based Execution}) derivadas de um Plano Diretor de Engenharia. Demonstra-se como o isolamento de contexto reduz drasticamente o \emph{context bleed} e previne a degradação conceitual do sistema durante a codificação massiva por agentes de linguagem.
+ 
+ \vspace{\onelineskip}
+ \noindent
+ \textbf{Palavras-chave}: Orquestração de Agentes. Engenharia de Software. Plano Diretor. Execução por Ondas. Isolamento de Contexto.
+\end{resumo}
+
+% SUMÁRIO
+\pdfbookmark[0]{\contentsname}{toc}
+\tableofcontents*
+\cleardoublepage
+
+% CAPÍTULOS
+\include{capitulo1_introducao}
+\include{capitulo2_arquitetura}
+\include{capitulo3_orquestracao_ondas}
+\include{capitulo4_conclusao}
+
+\end{document}

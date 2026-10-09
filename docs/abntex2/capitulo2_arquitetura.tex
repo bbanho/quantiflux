@@ -1,0 +1,16 @@
+\chapter{Arquitetura em Quatro Camadas}
+
+\section{Estrutura de Abstração}
+A orquestração Quantiflux divide o fluxo de trabalho em quatro níveis distintos e complementares:
+
+\subsection{Nível Conceitual}
+Representa a tese e a modelagem formal do sistema. Define as entidades fundamentais, os contratos imutáveis e as invariantes de domínio. Não contém detalhes de implementação ou bibliotecas específicas.
+
+\subsection{Nível Estratégico}
+Converte a tese conceitual no Plano Diretor de Engenharia (\emph{Master Engineering Plan}). Responsável por decompor o projeto em fases lógicas e ordenar as dependências entre módulos.
+
+\subsection{Nível Tático}
+Atua como o gerenciador de contexto e despachante. Filtra as informações relevantes do Plano Diretor para a Onda corrente e dispara subagentes especialistas via primitivas como \texttt{delegate\_task}.
+
+\subsection{Nível Operacional}
+Constituído pelos operadores e executores de código. Trabalham em ambientes limpos, escrevendo testes unitários e implementações locais. Submetem seus artefatos para validação nos portões de qualidade.

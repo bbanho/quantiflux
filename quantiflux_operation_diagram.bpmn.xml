@@ -5,7 +5,7 @@
                   xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
                   id="Definitions_Quantiflux"
                   targetNamespace="http://bpmn.io/schema/bpmn"
-                  exporter="Hermes Cognitive Executor"
+                  exporter="Quantiflux Engine"
                   exporterVersion="1.0">
   <bpmn:collaboration id="Collaboration_Quantiflux">
     <bpmn:participant id="Participant_QuantifluxEngine" name="Quantiflux Meta-Engineering Framework (Multi-Wave Agent Orchestration)" processRef="Process_QuantifluxEngine" />
