@@ -1,0 +1,206 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 850" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0d1117; }
+      .swimlane { fill: none; stroke: #21262d; stroke-width: 1.5; }
+      .lane-hdr { fill: #161b22; stroke: #30363d; stroke-width: 1.5; }
+      .box-conceitual { fill: #1f242c; stroke: #388bfd; stroke-width: 1.5; rx: 6px; }
+      .box-estrategico { fill: #1f242c; stroke: #bc8cff; stroke-width: 1.5; rx: 6px; }
+      .box-tatico { fill: #1f242c; stroke: #ff9b54; stroke-width: 1.5; rx: 6px; }
+      .box-operacional { fill: #1f242c; stroke: #56d364; stroke-width: 1.5; rx: 6px; }
+      .box-sub { fill: #161b22; stroke: #30363d; stroke-width: 1.2; rx: 4px; }
+      .box-ci { fill: #1b221c; stroke: #34d058; stroke-width: 1.5; rx: 6px; }
+      .text-title { fill: #f0f6fc; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: bold; }
+      .text-sub { fill: #8b949e; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; }
+      .text-lane { fill: #f0f6fc; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: bold; letter-spacing: 0.5px; }
+      .arrow { stroke: #58a6ff; stroke-width: 1.8; fill: none; marker-end: url(#arrowhead-blue); }
+      .arrow-red { stroke: #ff7b72; stroke-width: 1.5; stroke-dasharray: 3,3; fill: none; marker-end: url(#arrowhead-red); }
+      .arrow-green { stroke: #56d364; stroke-width: 1.8; fill: none; marker-end: url(#arrowhead-green); }
+      .arrow-dashed { stroke: #8b949e; stroke-width: 1.2; stroke-dasharray: 4,4; fill: none; marker-end: url(#arrowhead-gray); }
+      .badge { fill: #161b22; stroke: #30363d; stroke-width: 1; rx: 3px; }
+      .badge-text { fill: #c9d1d9; font-family: monospace; font-size: 10px; }
+    </style>
+    <marker id="arrowhead-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#58a6ff"/>
+    </marker>
+    <marker id="arrowhead-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#ff7b72"/>
+    </marker>
+    <marker id="arrowhead-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#56d364"/>
+    </marker>
+    <marker id="arrowhead-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8b949e"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect class="bg" width="1100" height="850" />
+
+  <!-- Lanes -->
+  <!-- Lane 1: Conceitual -->
+  <rect class="lane-hdr" x="30" y="30" width="40" height="150" />
+  <text x="50" y="105" class="text-lane" transform="rotate(-90 50 105)" text-anchor="middle">CONCEITUAL</text>
+  <rect class="swimlane" x="70" y="30" width="1000" height="150" />
+
+  <!-- Lane 2: Estratégico -->
+  <rect class="lane-hdr" x="30" y="180" width="40" height="200" />
+  <text x="50" y="280" class="text-lane" transform="rotate(-90 50 280)" text-anchor="middle">ESTRATÉGICO</text>
+  <rect class="swimlane" x="70" y="180" width="1000" height="200" />
+
+  <!-- Lane 3: Tático -->
+  <rect class="lane-hdr" x="30" y="380" width="40" height="160" />
+  <text x="50" y="460" class="text-lane" transform="rotate(-90 50 460)" text-anchor="middle">TÁTICO</text>
+  <rect class="swimlane" x="70" y="380" width="1000" height="160" />
+
+  <!-- Lane 4: Operacional -->
+  <rect class="lane-hdr" x="30" y="540" width="40" height="280" />
+  <text x="50" y="680" class="text-lane" transform="rotate(-90 50 680)" text-anchor="middle">OPERACIONAL &amp; CI/CD</text>
+  <rect class="swimlane" x="70" y="540" width="1000" height="280" />
+
+  <!-- Flow Elements -->
+
+  <!-- Lane 1: Conceitual Blocks -->
+  <g transform="translate(100, 65)">
+    <rect class="box-conceitual" width="180" height="70" />
+    <text x="90" y="30" class="text-title" text-anchor="middle">Tese Arquitetural</text>
+    <text x="90" y="50" class="text-sub" text-anchor="middle">Visão de Alto Nível</text>
+  </g>
+
+  <g transform="translate(340, 65)">
+    <rect class="box-conceitual" width="180" height="70" />
+    <text x="90" y="30" class="text-title" text-anchor="middle">Invariantes de Domínio</text>
+    <text x="90" y="50" class="text-sub" text-anchor="middle">Mapeamento de Entidades</text>
+  </g>
+
+  <!-- Lane 2: Estratégico Blocks -->
+  <g transform="translate(100, 235)">
+    <rect class="box-estrategico" width="180" height="80" />
+    <text x="90" y="32" class="text-title" text-anchor="middle">Master Engineering Plan</text>
+    <text x="90" y="52" class="text-sub" text-anchor="middle">Decomposição em Waves</text>
+    <text x="90" y="68" class="text-sub" fill="#bc8cff" text-anchor="middle">.hermes/plans/</text>
+  </g>
+
+  <!-- Subprocess: Residue Mining -->
+  <g transform="translate(340, 200)">
+    <rect class="box-sub" width="480" height="150" />
+    <text x="20" y="25" class="text-title" fill="#bc8cff">SUBPROCESSO: Mineração de Resíduos (Cherry-Pick Loop)</text>
+    
+    <g transform="translate(20, 50)">
+      <rect class="box-estrategico" width="130" height="65" />
+      <text x="65" y="28" class="text-title" text-anchor="middle">Capturar Histórico</text>
+      <text x="65" y="45" class="text-sub" text-anchor="middle">Commits &amp; Logs</text>
+    </g>
+
+    <g transform="translate(175, 50)">
+      <rect class="box-estrategico" width="130" height="65" />
+      <text x="65" y="28" class="text-title" text-anchor="middle">Cherry-Pick</text>
+      <text x="65" y="45" class="text-sub" text-anchor="middle">Mudanças Úteis</text>
+    </g>
+
+    <g transform="translate(330, 50)">
+      <rect class="box-estrategico" width="130" height="65" />
+      <text x="65" y="28" class="text-title" text-anchor="middle">Alinhar Invariantes</text>
+      <text x="65" y="45" class="text-sub" text-anchor="middle">Evitar Regressão</text>
+    </g>
+
+    <!-- Sub-arrows -->
+    <path d="M 150 82 L 175 82" class="arrow" />
+    <path d="M 305 82 L 330 82" class="arrow" />
+  </g>
+
+  <g transform="translate(880, 240)">
+    <circle cx="25" cy="25" r="25" fill="#1f242c" stroke="#bc8cff" stroke-width="1.5" />
+    <path d="M 17 25 L 33 25 M 25 17 L 25 33" stroke="#bc8cff" stroke-width="2" />
+    <text x="25" y="65" class="text-title" text-anchor="middle">Aprovação</text>
+  </g>
+
+  <!-- Lane 3: Tático Blocks -->
+  <g transform="translate(340, 425)">
+    <rect class="box-tatico" width="180" height="70" />
+    <text x="90" y="30" class="text-title" text-anchor="middle">Isolar Contexto</text>
+    <text x="90" y="50" class="text-sub" text-anchor="middle">Prevenir Context Bleed</text>
+  </g>
+
+  <g transform="translate(590, 425)">
+    <rect class="box-tatico" width="180" height="70" />
+    <text x="90" y="30" class="text-title" text-anchor="middle">Disparar Subagentes</text>
+    <text x="90" y="50" class="text-sub" text-anchor="middle">delegate_task (Fanout)</text>
+  </g>
+
+  <!-- Lane 4: Operacional & CI/CD Blocks -->
+  <!-- Subprocess: Operational Execution -->
+  <g transform="translate(200, 560)">
+    <rect class="box-sub" width="560" height="150" />
+    <text x="20" y="25" class="text-title" fill="#56d364">SUBPROCESSO: Implementação e Verificação Local</text>
+
+    <g transform="translate(20, 50)">
+      <rect class="box-operacional" width="150" height="70" />
+      <text x="75" y="30" class="text-title" text-anchor="middle">Desenvolvimento TDD</text>
+      <text x="75" y="50" class="text-sub" text-anchor="middle">Red-Green-Refactor</text>
+    </g>
+
+    <g transform="translate(200, 50)">
+      <rect class="box-operacional" width="150" height="70" />
+      <text x="75" y="30" class="text-title" text-anchor="middle">Testes Locais &amp; Linter</text>
+      <text x="75" y="50" class="text-sub" text-anchor="middle">pytest &amp; flake8</text>
+    </g>
+
+    <g transform="translate(380, 50)">
+      <rect class="box-operacional" width="160" height="70" />
+      <text x="80" y="30" class="text-title" text-anchor="middle">Git Status Clean</text>
+      <text x="80" y="50" class="text-sub" text-anchor="middle">Sem Detritos Soltos</text>
+    </g>
+
+    <!-- Sub-arrows -->
+    <path d="M 170 85 L 200 85" class="arrow" />
+    <path d="M 350 85 L 380 85" class="arrow" />
+  </g>
+
+  <!-- CI/CD and Gate -->
+  <g transform="translate(820, 560)">
+    <rect class="box-ci" width="200" height="150" />
+    <text x="100" y="25" class="text-title" fill="#56d364" text-anchor="middle">CI/CD Pipeline &amp; Artefatos</text>
+    <text x="100" y="55" class="text-sub" fill="#34d058" text-anchor="middle">• LaTeX Compilation (ABNT)</text>
+    <text x="100" y="75" class="text-sub" fill="#34d058" text-anchor="middle">• Geração de main.pdf</text>
+    <text x="100" y="100" class="text-sub" fill="#34d058" text-anchor="middle">• Validação SVG &amp; BPMN</text>
+    <text x="100" y="120" class="text-sub" fill="#8b949e" text-anchor="middle">GitHub Actions Workflow</text>
+  </g>
+
+  <g transform="translate(895, 740)">
+    <rect class="box-operacional" x="5" y="5" width="40" height="40" transform="rotate(45 25 25)" />
+    <text x="25" y="29" class="text-title" text-anchor="middle">Gate</text>
+  </g>
+
+  <!-- Connectors & Arrows (Inter-camadas) -->
+  <!-- 1 -> 2 -->
+  <path d="M 280 100 L 340 100" class="arrow" />
+  <path d="M 430 135 L 430 160 L 190 160 L 190 235" class="arrow" />
+  <path d="M 280 275 L 340 275" class="arrow" />
+  
+  <!-- 2 -> 3 -->
+  <path d="M 820 265 L 880 265" class="arrow" />
+  <path d="M 905 290 L 905 400 L 430 400 L 430 425" class="arrow" />
+
+  <!-- 3 -> 4 -->
+  <path d="M 520 460 L 590 460" class="arrow" />
+  <path d="M 680 495 L 680 525 L 150 525 L 150 635 L 200 635" class="arrow" />
+  
+  <!-- 4 -> Gate -->
+  <path d="M 760 635 L 820 635" class="arrow" />
+  <path d="M 920 710 L 920 740" class="arrow" />
+
+  <!-- Feedback Loops / Condicionais -->
+  <!-- Gate -> Refazer Operação (Red arrow) -->
+  <path d="M 895 765 L 110 765 L 110 635 L 200 635" class="arrow-red" />
+  <text x="120" y="755" class="text-sub" fill="#ff7b72">Refazer Operação (Falha nos testes/CI)</text>
+
+  <!-- Gate -> Próxima Wave (Dashed gray arrow) -->
+  <path d="M 945 765 L 1050 765 L 1050 405 L 500 405 L 500 425" class="arrow-dashed" />
+  <text x="1035" y="500" class="text-sub" transform="rotate(-90 1035 500)" text-anchor="middle">Próxima Wave (Aprovado)</text>
+
+  <!-- Residue feedback loop from Operational Git state to Strategic mining -->
+  <path d="M 480 710 L 480 735 L 80 735 L 80 365 L 580 365 L 580 350" class="arrow-dashed" />
+  <text x="280" y="728" class="text-sub">Feedback de Resíduo (Git commits de ajuste estratégico)</text>
+
+</svg>

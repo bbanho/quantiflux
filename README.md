@@ -32,31 +32,7 @@ quantiflux/
 
 ## Fluxo Metanalítico Integrado (Camadas, Subfluxos, CI/CD e Resíduo)
 
-```
-+---------------------------------------------------------------------------------------------------------+
-|                                    QUANTIFLUX: METODOLOGIA COMPACTA                                     |
-+---------------------------------------------------------------------------------------------------------+
-
-[1. NÍVEL CONCEITUAL] ──► Tese de Arquitetura & Invariantes de Negócio
-  └─► Subfluxo: [Mapear Domínio] ──► [Definir Contratos] ──► [Travar Invariantes]
-
-[2. NÍVEL ESTRATÉGICO] ──► Master Engineering Plan (.hermes/plans/) & Decomposição por Ondas
-  └─► Subfluxo: [Minerar Resíduo/Commits] ──► [Cherry-Pick de Mudanças Legítimas] ──► [Vincular a Waves]
-        │
-        └──► Re-alinhar Estratégia via Resíduo (Iteração Dinâmica de Escopo)
-
-[3. NÍVEL TÁTICO] ──► Isolamento de Contexto & Despacho de Subagentes
-  └─► Subfluxo: [Filtrar Prompt por Wave] ──► [Montar Task Manifest] ──► [delegate_task Fanout]
-
-[4. NÍVEL OPERACIONAL] ──► Execução Local & CI/CD Wave Gates
-  └─► Subfluxo Local: [Escrita de Código / TDD] ──► [Testes Locais] ──► [Verification Gate]
-        │
-        ▼
-[PIPELINE CI/CD & ARTEFATOS]
-  ├─► [GitHub Actions Workflow] (LaTeX ABNT Compilation -> main.pdf)
-  ├─► [Asset & Diagram Validation] (SVG Architecture & BPMN 2.0 XML)
-  └─► [Promoção de Onda] ──► Avança para Próxima Wave
-```
+![Fluxo Integrado Quantiflux](assets/quantiflux_integrated_flow.svg)
 
 ---
 
