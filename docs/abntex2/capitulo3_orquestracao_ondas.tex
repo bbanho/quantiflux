@@ -10,13 +10,54 @@ Em vez de permitir que agentes modifiquem múltiplos componentes simultaneamente
     \item \textbf{Onda N (Interface \& Integração Externa):} Camadas de exposição e APIs.
 \end{enumerate}
 
-\section{Isolamento de Contexto e Prevenção de Context Bleed}
-Cada subagente despachado na Onda $K$ recebe estritamente as especificações da Onda $K$ e os contratos consolidados das Ondas $0 \dots K-1$. Informações de Ondas futuras são omitidas, eliminando alucinações e suposições prematuras.
+\section{O Processo Quantiflux de Engenharia Meta-Orientada}
 
-\section{Portões de Qualidade (Wave Boundary Gates)}
-A transição da Onda $K$ para a Onda $K+1$ é bloqueada até que os seguintes critérios sejam atendidos de forma auditável:
+\subsection{Visão Geral do Processo}
+O processo operacional do Quantiflux descreve a sequência de engenharia necessária para guiar enxames de agentes em ondas de desenvolvimento seguras. Ele é estruturado em raias funcionais que delimitam as fronteiras de responsabilidade técnica entre os níveis de abstração: Conceitual, Estratégico, Tático e Operacional.
+
+\subsection{Detalhamento do Fluxo de Trabalho}
+
+\subsubsection{Fase 1: Início e Modelagem Conceitual}
 \begin{itemize}
-    \item Compilação sem erros e aprovação de 100\% da suíte de testes unitários.
-    \item Estado do repositório Git verificado e limpo (\texttt{git status}).
-    \item Registro de métricas e lições aprendidas consolidado no repositório.
+    \item \textbf{Início do Fluxo:} O ciclo operacional se inicia no evento inicial localizado na raia Conceitual.
+    \item \textbf{Formulação da Tese:} O engenheiro projeta a arquitetura mestre do sistema livre de detalhes operacionais de código.
+    \item \textbf{Artefatos de Dados:} Gera-se o documento de dados \textbf{Invariantes e Contratos de Domínio} que guiará todas as camadas subsequentes.
 \end{itemize}
+
+\subsubsection{Fase 2: Estruturação Estratégica e Decomposição}
+\begin{itemize}
+    \item \textbf{Elaboração do Master Engineering Plan:} Na raia Estratégica, a tese conceitual é convertida no documento prático localizado em \texttt{.hermes/plans/master\_plan.md}.
+    \item \textbf{Decomposição por Ondas:} O plano é fracionado em blocos incrementais e independentes denominados Ondas (Waves).
+    \item \textbf{Análise de Resíduos (Feedback Loop):} Uma etapa dedicada analisa commits, logs e históricos anteriores (resíduo semântico) para refinar o plano estrategicamente antes de enviar tarefas para a fase operacional (Cherry-Pick / Feedback Loop).
+\end{itemize}
+
+\subsubsection{Fase 3: Isolamento Tático e Despacho}
+\begin{itemize}
+    \item \textbf{Filtragem de Contexto:} Na raia Tática, a informação é filtrada para conter estritamente as metas da Onda ativa, prevenindo o fenômeno de \emph{context bleed}.
+    \item \textbf{Disparo de Tarefas:} Subagentes especializados são despachados dinamicamente via primitivas de controle (\texttt{delegate\_task}), recebendo exclusivamente o manifesto isolado da Onda.
+\end{itemize}
+
+\subsubsection{Fase 4: Execução Operacional e Portões de Onda}
+\begin{itemize}
+    \item \textbf{Implementação por Operadores:} Os operadores em nível operacional executam a codificação sob a estrita disciplina de TDD.
+    \item \textbf{Verificação e Portões de Onda (Wave Boundary Gates):} O fluxo alcança o portão de verificação de testes unitários e linter. Se aprovado, o estado do repositório é consolidado (\texttt{git status} limpo).
+    \item \textbf{Compilação de Artefatos (CI/CD):} Dispara-se o pipeline automatizado via GitHub Actions para validação e compilação das especificações LaTeX para geração do manual PDF.
+\end{itemize}
+
+\subsection{Detalhamento dos Subprocessos Integrados}
+
+\subsubsection{Subprocesso: Análise e Mineração de Resíduos}
+Este subprocesso estratégico é acionado iterativamente para garantir que lições e alterações de código residuais sejam integradas sem introduzir desvios na tese conceitual:
+\begin{enumerate}
+    \item \textbf{Capturar Histórico:} Coleta logs de commits e buffers de conversas anteriores.
+    \item \textbf{Executar Cherry-Pick:} Filtra e seleciona commits de mudanças legítimas para reintegração na tese.
+    \item \textbf{Validar contra Invariantes:} Verifica se os trechos recuperados colidem com as definições conceituais do domínio.
+\end{enumerate}
+
+\subsubsection{Subprocesso: Validação Operacional no Portão}
+Subprocesso estrito que bloqueia a promoção de ondas se houver instabilidade lógica:
+\begin{enumerate}
+    \item \textbf{Executar Testes Unitários:} Dispara a suíte local de testes automatizados.
+    \item \textbf{Análise Estática:} Valida estilos e assinaturas contra os contratos da Onda 0.
+    \item \textbf{Garantia de Estado:} Garante que nenhum arquivo não-rastreado polua o repositório antes do fechamento.
+\end{enumerate}

@@ -20,7 +20,7 @@
       </bpmn:lane>
       <bpmn:lane id="Lane_Strategic" name="2. Nível Estratégico (Orquestrador de Plano Diretor)">
         <bpmn:flowNodeRef>Task_DeriveMasterPlan</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_DecomposeWaves</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>SubProcess_ResidueMining</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_PlanApproval</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_Tactical" name="3. Nível Tático (Gerenciador de Contexto &amp; Subagentes)">
@@ -29,14 +29,13 @@
         <bpmn:flowNodeRef>Task_CollectHandoffs</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_Operational" name="4. Nível Operacional (Operadores Especialistas / Executores)">
-        <bpmn:flowNodeRef>Task_ExecuteCode</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_RunTests</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>SubProcess_OperationalExecution</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_WaveGate</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>EndEvent_WaveCompleted</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
 
-    <!-- Conceitual -->
+    <!-- 1. Nível Conceitual -->
     <bpmn:startEvent id="StartEvent_Conceptual" name="Início do Ciclo Metanalítico">
       <bpmn:outgoing>SequenceFlow_01</bpmn:outgoing>
     </bpmn:startEvent>
@@ -44,28 +43,52 @@
       <bpmn:incoming>SequenceFlow_01</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_02</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="Task_DefineInvariants" name="Mapear Entidades &amp; Invariantes de Negócio">
+    <bpmn:task id="Task_DefineInvariants" name="Mapear Entidades &amp; Invariantes de Domínio">
       <bpmn:incoming>SequenceFlow_02</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_03</bpmn:outgoing>
     </bpmn:task>
 
-    <!-- Estratégico -->
+    <!-- 2. Nível Estratégico (Com Subprocesso de Mineração de Resíduo) -->
     <bpmn:task id="Task_DeriveMasterPlan" name="Elaborar Plano Diretor de Engenharia (.hermes/plans)">
       <bpmn:incoming>SequenceFlow_03</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_PlanRejected</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_04</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_ToMining</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="Task_DecomposeWaves" name="Decompor o Projeto em Ondas Sequenciais (Waves)">
-      <bpmn:incoming>SequenceFlow_04</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_05</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:exclusiveGateway id="Gateway_PlanApproval" name="Plano Aprovado?">
-      <bpmn:incoming>SequenceFlow_05</bpmn:incoming>
+
+    <bpmn:subProcess id="SubProcess_ResidueMining" name="Subprocesso de Mineração de Resíduos Semânticos (Cherry-Pick)">
+      <bpmn:incoming>SequenceFlow_ToMining</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_ToApproval</bpmn:outgoing>
+      <bpmn:startEvent id="Start_Mining" name="Início Mineração">
+        <bpmn:outgoing>Flow_M1</bpmn:outgoing>
+      </bpmn:startEvent>
+      <bpmn:task id="Task_GatherCommits" name="Capturar Histórico e Commits Soltos">
+        <bpmn:incoming>Flow_M1</bpmn:incoming>
+        <bpmn:outgoing>Flow_M2</bpmn:outgoing>
+      </bpmn:task>
+      <bpmn:task id="Task_CherryPick" name="Selecionar Mudanças Legítimas">
+        <bpmn:incoming>Flow_M2</bpmn:incoming>
+        <bpmn:outgoing>Flow_M3</bpmn:outgoing>
+      </bpmn:task>
+      <bpmn:task id="Task_AlignInvariants" name="Validar Reintegração Contra Invariantes">
+        <bpmn:incoming>Flow_M3</bpmn:incoming>
+        <bpmn:outgoing>Flow_M4</bpmn:outgoing>
+      </bpmn:task>
+      <bpmn:endEvent id="End_Mining" name="Fim Mineração">
+        <bpmn:incoming>Flow_M4</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="Flow_M1" sourceRef="Start_Mining" targetRef="Task_GatherCommits" />
+      <bpmn:sequenceFlow id="Flow_M2" sourceRef="Task_GatherCommits" targetRef="Task_CherryPick" />
+      <bpmn:sequenceFlow id="Flow_M3" sourceRef="Task_CherryPick" targetRef="Task_AlignInvariants" />
+      <bpmn:sequenceFlow id="Flow_M4" sourceRef="Task_AlignInvariants" targetRef="End_Mining" />
+    </bpmn:subProcess>
+
+    <bpmn:exclusiveGateway id="Gateway_PlanApproval" name="Plano Estratégico Aprovado?">
+      <bpmn:incoming>SequenceFlow_ToApproval</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_PlanApproved</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_PlanRejected</bpmn:outgoing>
     </bpmn:exclusiveGateway>
 
-    <!-- Tático -->
+    <!-- 3. Nível Tático -->
     <bpmn:task id="Task_IsolateContext" name="Filtrar e Isolar Contexto Específico da Wave">
       <bpmn:incoming>SequenceFlow_PlanApproved</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_NextWave</bpmn:incoming>
@@ -75,28 +98,47 @@
       <bpmn:incoming>SequenceFlow_06</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_07</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="Task_CollectHandoffs" name="Coletar Resultados &amp; Artifacts do Handoff">
-      <bpmn:incoming>SequenceFlow_08</bpmn:incoming>
+    <bpmn:task id="Task_CollectHandoffs" name="Coletar Resultados &amp; Handoff do Subagente">
+      <bpmn:incoming>SequenceFlow_FromExecution</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_09</bpmn:outgoing>
     </bpmn:task>
 
-    <!-- Operacional -->
-    <bpmn:task id="Task_ExecuteCode" name="Executar Implementação (Operadores Especialistas)">
+    <!-- 4. Nível Operacional (Com Subprocesso de Execução TDD e Validação) -->
+    <bpmn:subProcess id="SubProcess_OperationalExecution" name="Subprocesso de Implementação e Verificação Local">
       <bpmn:incoming>SequenceFlow_07</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_GateFailed</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_08</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:task id="Task_RunTests" name="Executar Bateria de Testes &amp; Verificação Git">
-      <bpmn:incoming>SequenceFlow_09</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_10</bpmn:outgoing>
-    </bpmn:task>
+      <bpmn:outgoing>SequenceFlow_FromExecution</bpmn:outgoing>
+      <bpmn:startEvent id="Start_Execution" name="Iniciar Codificação">
+        <bpmn:outgoing>Flow_E1</bpmn:outgoing>
+      </bpmn:startEvent>
+      <bpmn:task id="Task_TDDCode" name="Escrever Código via TDD (Red-Green-Refactor)">
+        <bpmn:incoming>Flow_E1</bpmn:incoming>
+        <bpmn:outgoing>Flow_E2</bpmn:outgoing>
+      </bpmn:task>
+      <bpmn:task id="Task_LocalVerification" name="Rodar Bateria de Testes Locais &amp; Linter">
+        <bpmn:incoming>Flow_E2</bpmn:incoming>
+        <bpmn:outgoing>Flow_E3</bpmn:outgoing>
+      </bpmn:task>
+      <bpmn:task id="Task_GitStateCheck" name="Validar Estado do Repositório (Git Status Clean)">
+        <bpmn:incoming>Flow_E3</bpmn:incoming>
+        <bpmn:outgoing>Flow_E4</bpmn:outgoing>
+      </bpmn:task>
+      <bpmn:endEvent id="End_Execution" name="Fim Execução Local">
+        <bpmn:incoming>Flow_E4</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="Flow_E1" sourceRef="Start_Execution" targetRef="Task_TDDCode" />
+      <bpmn:sequenceFlow id="Flow_E2" sourceRef="Task_TDDCode" targetRef="Task_LocalVerification" />
+      <bpmn:sequenceFlow id="Flow_E3" sourceRef="Task_LocalVerification" targetRef="Task_GitStateCheck" />
+      <bpmn:sequenceFlow id="Flow_E4" sourceRef="Task_GitStateCheck" targetRef="End_Execution" />
+    </bpmn:subProcess>
+
     <bpmn:exclusiveGateway id="Gateway_WaveGate" name="Portão de Qualidade da Wave (Passou?)">
-      <bpmn:incoming>SequenceFlow_10</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_09</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_NextWave</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_GateFailed</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_AllWavesDone</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:endEvent id="EndEvent_WaveCompleted" name="Sistema Consolidado e Promovido">
+    <bpmn:endEvent id="EndEvent_WaveCompleted" name="Sistema Consolidado, Promovido e Compilado via CI/CD">
       <bpmn:incoming>SequenceFlow_AllWavesDone</bpmn:incoming>
     </bpmn:endEvent>
 
@@ -104,18 +146,17 @@
     <bpmn:sequenceFlow id="SequenceFlow_01" sourceRef="StartEvent_Conceptual" targetRef="Task_FormulateMasterTesis" />
     <bpmn:sequenceFlow id="SequenceFlow_02" sourceRef="Task_FormulateMasterTesis" targetRef="Task_DefineInvariants" />
     <bpmn:sequenceFlow id="SequenceFlow_03" sourceRef="Task_DefineInvariants" targetRef="Task_DeriveMasterPlan" />
-    <bpmn:sequenceFlow id="SequenceFlow_04" sourceRef="Task_DeriveMasterPlan" targetRef="Task_DecomposeWaves" />
-    <bpmn:sequenceFlow id="SequenceFlow_05" sourceRef="Task_DecomposeWaves" targetRef="Gateway_PlanApproval" />
+    <bpmn:sequenceFlow id="SequenceFlow_ToMining" sourceRef="Task_DeriveMasterPlan" targetRef="SubProcess_ResidueMining" />
+    <bpmn:sequenceFlow id="SequenceFlow_ToApproval" sourceRef="SubProcess_ResidueMining" targetRef="Gateway_PlanApproval" />
     <bpmn:sequenceFlow id="SequenceFlow_PlanApproved" name="Sim" sourceRef="Gateway_PlanApproval" targetRef="Task_IsolateContext" />
     <bpmn:sequenceFlow id="SequenceFlow_PlanRejected" name="Ajustar" sourceRef="Gateway_PlanApproval" targetRef="Task_DeriveMasterPlan" />
     <bpmn:sequenceFlow id="SequenceFlow_06" sourceRef="Task_IsolateContext" targetRef="Task_SpawnSubagents" />
-    <bpmn:sequenceFlow id="SequenceFlow_07" sourceRef="Task_SpawnSubagents" targetRef="Task_ExecuteCode" />
-    <bpmn:sequenceFlow id="SequenceFlow_08" sourceRef="Task_ExecuteCode" targetRef="Task_CollectHandoffs" />
-    <bpmn:sequenceFlow id="SequenceFlow_09" sourceRef="Task_CollectHandoffs" targetRef="Task_RunTests" />
-    <bpmn:sequenceFlow id="SequenceFlow_10" sourceRef="Task_RunTests" targetRef="Gateway_WaveGate" />
+    <bpmn:sequenceFlow id="SequenceFlow_07" sourceRef="Task_SpawnSubagents" targetRef="SubProcess_OperationalExecution" />
+    <bpmn:sequenceFlow id="SequenceFlow_FromExecution" sourceRef="SubProcess_OperationalExecution" targetRef="Task_CollectHandoffs" />
+    <bpmn:sequenceFlow id="SequenceFlow_09" sourceRef="Task_CollectHandoffs" targetRef="Gateway_WaveGate" />
     <bpmn:sequenceFlow id="SequenceFlow_NextWave" name="Próxima Wave" sourceRef="Gateway_WaveGate" targetRef="Task_IsolateContext" />
-    <bpmn:sequenceFlow id="SequenceFlow_GateFailed" name="Refazer Operação" sourceRef="Gateway_WaveGate" targetRef="Task_ExecuteCode" />
-    <bpmn:sequenceFlow id="SequenceFlow_AllWavesDone" name="Todas Waves Concluídas" sourceRef="Gateway_WaveGate" targetRef="EndEvent_WaveCompleted" />
+    <bpmn:sequenceFlow id="SequenceFlow_GateFailed" name="Refazer Operação" sourceRef="Gateway_WaveGate" targetRef="SubProcess_OperationalExecution" />
+    <bpmn:sequenceFlow id="SequenceFlow_AllWavesDone" name="Todas as Waves Concluídas" sourceRef="Gateway_WaveGate" targetRef="EndEvent_WaveCompleted" />
   </bpmn:process>
 
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -149,26 +190,23 @@
       <bpmndi:BPMNShape id="Task_DeriveMasterPlan_di" bpmnElement="Task_DeriveMasterPlan">
         <dc:Bounds x="470" y="320" x="120" y="70" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_DecomposeWaves_di" bpmnElement="Task_DecomposeWaves">
-        <dc:Bounds x="630" y="320" x="120" y="70" />
+      <bpmndi:BPMNShape id="SubProcess_ResidueMining_di" bpmnElement="SubProcess_ResidueMining" isExpanded="true">
+        <dc:Bounds x="630" y="300" x="280" y="150" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_PlanApproval_di" bpmnElement="Gateway_PlanApproval" isMarkerVisible="true">
-        <dc:Bounds x="790" y="330" x="50" y="50" />
+        <dc:Bounds x="950" y="330" x="50" y="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_IsolateContext_di" bpmnElement="Task_IsolateContext">
-        <dc:Bounds x="755" y="530" x="120" y="70" />
+        <dc:Bounds x="915" y="530" x="120" y="70" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_SpawnSubagents_di" bpmnElement="Task_SpawnSubagents">
-        <dc:Bounds x="590" y="530" x="120" y="70" />
+        <dc:Bounds x="750" y="530" x="120" y="70" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_ExecuteCode_di" bpmnElement="Task_ExecuteCode">
-        <dc:Bounds x="590" y="730" x="120" y="70" />
+      <bpmndi:BPMNShape id="SubProcess_OperationalExecution_di" bpmnElement="SubProcess_OperationalExecution" isExpanded="true">
+        <dc:Bounds x="590" y="690" x="300" y="150" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_CollectHandoffs_di" bpmnElement="Task_CollectHandoffs">
         <dc:Bounds x="430" y="530" x="120" y="70" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_RunTests_di" bpmnElement="Task_RunTests">
-        <dc:Bounds x="430" y="730" x="120" y="70" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_WaveGate_di" bpmnElement="Gateway_WaveGate" isMarkerVisible="true">
         <dc:Bounds x="290" y="740" x="50" y="50" />
