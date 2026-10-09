@@ -30,12 +30,33 @@ quantiflux/
 
 ---
 
-## As 4 Camadas do Quantiflux
+## Fluxo Metanalítico Integrado (Camadas, Subfluxos, CI/CD e Resíduo)
 
-1. **Nível Conceitual (Tese & Invariantes):** Modelagem formal do sistema e definição dos contratos imutáveis do domínio.
-2. **Nível Estratégico (Plano Diretor & Waves):** Elaboração do Master Engineering Plan e decomposição em Ondas sequenciais.
-3. **Nível Tático (Isolamento de Contexto & Fanout):** Disparo de subagentes táticos (`delegate_task`) com contexto filtrado por Onda.
-4. **Nível Operacional (Execução & Wave Gates):** Execução local de código/testes e verificação rigorosa nos Portões de Onda.
+```
++---------------------------------------------------------------------------------------------------------+
+|                                    QUANTIFLUX: METODOLOGIA COMPACTA                                     |
++---------------------------------------------------------------------------------------------------------+
+
+[1. NÍVEL CONCEITUAL] ──► Tese de Arquitetura & Invariantes de Negócio
+  └─► Subfluxo: [Mapear Domínio] ──► [Definir Contratos] ──► [Travar Invariantes]
+
+[2. NÍVEL ESTRATÉGICO] ──► Master Engineering Plan (.hermes/plans/) & Decomposição por Ondas
+  └─► Subfluxo: [Minerar Resíduo/Commits] ──► [Cherry-Pick de Mudanças Legítimas] ──► [Vincular a Waves]
+        │
+        └──► Re-alinhar Estratégia via Resíduo (Iteração Dinâmica de Escopo)
+
+[3. NÍVEL TÁTICO] ──► Isolamento de Contexto & Despacho de Subagentes
+  └─► Subfluxo: [Filtrar Prompt por Wave] ──► [Montar Task Manifest] ──► [delegate_task Fanout]
+
+[4. NÍVEL OPERACIONAL] ──► Execução Local & CI/CD Wave Gates
+  └─► Subfluxo Local: [Escrita de Código / TDD] ──► [Testes Locais] ──► [Verification Gate]
+        │
+        ▼
+[PIPELINE CI/CD & ARTEFATOS]
+  ├─► [GitHub Actions Workflow] (LaTeX ABNT Compilation -> main.pdf)
+  ├─► [Asset & Diagram Validation] (SVG Architecture & BPMN 2.0 XML)
+  └─► [Promoção de Onda] ──► Avança para Próxima Wave
+```
 
 ---
 
