@@ -1,0 +1,22 @@
+\chapter{Orquestração por Ondas e Portões de Qualidade}
+
+\section{Decomposição por Ondas (Wave-based Execution)}
+Em vez de permitir que agentes modifiquem múltiplos componentes simultaneamente, o Quantiflux exige a ordenação em Ondas:
+
+\begin{enumerate}
+    \item \textbf{Onda 0 (Core Contracts):} Definição de interfaces, DTOs e tipos abstratos.
+    \item \textbf{Onda 1 (Adapters \& Persistência):} Implementação de adaptadores de infraestrutura e banco de dados.
+    \item \textbf{Onda 2 (Serviços \& Lógica de Negócio):} Construção das regras de negócio consuming os contratos da Onda 0.
+    \item \textbf{Onda N (Interface \& Integração Externa):} Camadas de exposição e APIs.
+\end{enumerate}
+
+\section{Isolamento de Contexto e Prevenção de Context Bleed}
+Cada subagente despachado na Onda $K$ recebe estritamente as especificações da Onda $K$ e os contratos consolidados das Ondas $0 \dots K-1$. Informações de Ondas futuras são omitidas, eliminando alucinações e suposições prematuras.
+
+\section{Portões de Qualidade (Wave Boundary Gates)}
+A transição da Onda $K$ para a Onda $K+1$ é bloqueada até que os seguintes critérios sejam atendidos de forma auditável:
+\begin{itemize}
+    \item Compilação sem erros e aprovação de 100\% da suíte de testes unitários.
+    \item Estado do repositório Git verificado e limpo (\texttt{git status}).
+    \item Registro de métricas e lições aprendidas consolidado no repositório.
+\end{itemize}
