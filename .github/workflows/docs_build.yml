@@ -14,23 +14,13 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup TeX Live with ABNTeX2
-        uses: dante-ev/texlive-action@v1
-        with:
-          packages: |
-            scheme-basic
-            abntex2
-            lmodern
-            microtype
-            hyperref
-            babel
-            tools
-
       - name: Compile TeX Document
-        run: |
-          cd docs/abntex2
-          pdflatex -interaction=nonstopmode main.tex
-          pdflatex -interaction=nonstopmode main.tex
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: main.tex
+          working_directory: docs/abntex2
+          compiler: pdflatex
+          args: -interaction=nonstopmode -file-line-error -halt-on-error
 
       - name: Upload Compiled PDF Artifact
         uses: actions/upload-artifact@v4
